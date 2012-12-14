@@ -61,6 +61,14 @@ public class Mission {
 		this.army = army;
 	}
 
+	public double getDistance() {
+		Village source = army.getVillage();
+		int distanceX = Math.abs(destination.getX() - source.getX());
+		int distanceY = Math.abs(destination.getY() - source.getY());
+		double temp = Math.pow(distanceX, 2) + Math.pow(distanceY, 2);
+		return Math.sqrt(temp);
+	}
+	
 	@Override
 	public String toString() {
 		return "Mission [id=" + id + ", type=" + type + ", time=" + time + ", destination=" + destination + ", army=" + army + "]";

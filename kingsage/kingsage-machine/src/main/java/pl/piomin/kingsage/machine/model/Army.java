@@ -7,7 +7,7 @@ public class Army {
 
 	private Integer id;
 
-	private List<UnitItem> unitItem = new ArrayList<UnitItem>();
+	private List<UnitItem> units = new ArrayList<UnitItem>();
 
 	private Village village;
 
@@ -28,12 +28,22 @@ public class Army {
 	}
 
 	public void addUnit(UnitItem unit) {
-		unitItem.add(unit);
+		units.add(unit);
+	}
+	
+	public UnitItem getSlowestUnit() {
+		UnitItem lastUnit = units.get(0); 
+		for (UnitItem unitItem : units) {
+			if (unitItem.getUnit().getTime() > lastUnit.getUnit().getTime()) {
+				lastUnit = unitItem;
+			}
+		}
+		return lastUnit;
 	}
 
 	@Override
 	public String toString() {
-		return "Army [id=" + id + ", unitItem=" + unitItem + ", village=" + village + "]";
+		return "Army [id=" + id + ", unitItem=" + units + ", village=" + village + "]";
 	}
 
 }

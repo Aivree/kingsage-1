@@ -1,5 +1,7 @@
 package pl.piomin.kingsage.machine.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -30,7 +32,7 @@ public class ResourceContainer {
 
 	private static int armyId = 0;
 
-	private Map<Integer, Mission> missions = new TreeMap<Integer, Mission>();
+	private List<Mission> missions = new ArrayList< Mission>();
 
 	private static int missionId = 0;
 	
@@ -53,9 +55,9 @@ public class ResourceContainer {
 		this.armies.put(armyId, army);
 	}
 	
-	public void putMission(Mission mission) {
+	public void addMission(Mission mission) {
 		mission.setId(++missionId);
-		this.missions.put(missionId, mission);
+		this.missions.add(mission);
 	}
 	
 	public Village getSource(Integer id) {
@@ -70,8 +72,12 @@ public class ResourceContainer {
 		return armies.get(id);
 	}
 	
-	public Mission getMission(Integer id) {
-		return missions.get(id);
+	public Mission getMission(int index) {
+		return missions.get(index);
+	}
+
+	public List<Mission> getMissions() {
+		return missions;
 	}
 	
 }

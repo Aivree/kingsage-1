@@ -73,7 +73,7 @@ public class ResourceGenerator {
 			case MISSION:
 				Mission mission = createMission(bundle.getString(key));
 				logger.info(MessageFormat.format("Mission {0}", mission));
-				container.putMission(mission);
+				container.addMission(mission);
 				break;
 				
 			default:
