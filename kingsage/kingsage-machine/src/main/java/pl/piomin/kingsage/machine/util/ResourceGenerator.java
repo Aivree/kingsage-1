@@ -26,24 +26,29 @@ public class ResourceGenerator {
 	
 	private static final String SPLIT_PATTERN = "\\.";
 
-	private static final String VILLAGE_PATTERN = "^name:(.*),x:(\\d{3}),y:(\\d{3}).*";
+	private static final String DESTINATION_PATTERN = "^name:(.*),x:(\\d{3}),y:(\\d{3}).*";
+	
+	private static final String SOURCE_PATTERN = "^name:(.*),x:(\\d{3}),y:(\\d{3}),kingsageId:(\\w*).*";
 	
 	private static final String ARMY_PATTERN = "(\\w*):(\\d{1,5})";
 	
-	private static final String MISSION_PATTERN = "^village:(\\d{1,3}),army:(\\d{1,3}),time:(\\w*),type:(\\w*)";
+	private static final String MISSION_PATTERN = "^village:(\\d{1,3}),army:(\\d{1,3}),time:(\\w*),type:(\\w*),reply:(\\d{1})";
 
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern("yyyyMMddHHmmss");
 	
 	private ResourceContainer container = ResourceContainer.getInstance();
 	
-	private Pattern villagePattern;
+	private Pattern sourcePattern;
+	
+	private Pattern destinationPattern;
 	
 	private Pattern armyPattern;
 	
 	private Pattern missionPattern;
 	
 	public void init() {
-		this.villagePattern = Pattern.compile(VILLAGE_PATTERN);
+		this.sourcePattern = Pattern.compile(SOURCE_PATTERN);
+		this.destinationPattern = Pattern.compile(DESTINATION_PATTERN);
 		this.armyPattern = Pattern.compile(ARMY_PATTERN);
 		this.missionPattern = Pattern.compile(MISSION_PATTERN);
 		
@@ -53,13 +58,13 @@ public class ResourceGenerator {
 			ConfigurationType type = ConfigurationType.valueOf(key.split(SPLIT_PATTERN)[0].toUpperCase());
 			switch (type) {
 			case SOURCE:
-				Village source = createVillage(bundle.getString(key));
+				Village source = createSource(bundle.getString(key));
 				logger.info(MessageFormat.format("Source {0}", source));
 				container.putSource(source);
 				break;
 
 			case DESTINATION:	
-				Village destination = createVillage(bundle.getString(key));
+				Village destination = createDestination(bundle.getString(key));
 				logger.info(MessageFormat.format("Destination {0}", destination));
 				container.putDestination(destination);
 				break;
@@ -82,8 +87,17 @@ public class ResourceGenerator {
 		}
 	}
 	
-	public Village createVillage(String value) {
-		Matcher matcher = villagePattern.matcher(value);
+	public Village createSource(String value) {
+		Matcher matcher = sourcePattern.matcher(value);
+		if (matcher.matches()) {
+			return new Village(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), matcher.group(1), matcher.group(4));
+		} else {
+			return null;
+		}
+	}
+	
+	public Village createDestination(String value) {
+		Matcher matcher = destinationPattern.matcher(value);
 		if (matcher.matches()) {
 			return new Village(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)), matcher.group(1));
 		} else {
@@ -115,7 +129,7 @@ public class ResourceGenerator {
 			MissionType type = MissionType.valueOf(matcher.group(4).toUpperCase());
 			Village village = container.getDestination(Integer.parseInt(matcher.group(1)));
 			Army army = container.getArmy(Integer.parseInt(matcher.group(2)));
-			return new Mission(type, TIME_FORMATTER.parseDateTime(matcher.group(3)).toDate(), village, army);
+			return new Mission(type, TIME_FORMATTER.parseDateTime(matcher.group(3)).toDate(), village, army, Integer.parseInt(matcher.group(5)));
 		} else {
 			return null;
 		}

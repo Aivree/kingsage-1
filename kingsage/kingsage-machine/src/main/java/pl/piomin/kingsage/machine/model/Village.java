@@ -3,6 +3,8 @@ package pl.piomin.kingsage.machine.model;
 public class Village {
 
 	private Integer id;
+	
+	private String kingsageId;
 
 	private int x;
 
@@ -10,7 +12,15 @@ public class Village {
 
 	private String name;
 
+	public Village(int x, int y, String name, String kingsageId) {
+		this.x = x;
+		this.y = y;
+		this.name = name;
+		this.kingsageId = kingsageId;
+	}
+
 	public Village(int x, int y, String name) {
+		super();
 		this.x = x;
 		this.y = y;
 		this.name = name;
@@ -22,6 +32,14 @@ public class Village {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getKingsageId() {
+		return kingsageId;
+	}
+
+	public void setKingsageId(String kingsageId) {
+		this.kingsageId = kingsageId;
 	}
 
 	public int getX() {

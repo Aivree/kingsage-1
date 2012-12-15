@@ -41,6 +41,10 @@ public class Army {
 		return lastUnit;
 	}
 
+	public List<UnitItem> getUnits() {
+		return units;
+	}
+
 	@Override
 	public String toString() {
 		return "Army [id=" + id + ", unitItem=" + units + ", village=" + village + "]";
