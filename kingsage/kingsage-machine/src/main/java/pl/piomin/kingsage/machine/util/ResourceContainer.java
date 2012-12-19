@@ -32,7 +32,7 @@ public class ResourceContainer {
 
 	private static int armyId = 0;
 
-	private List<Mission> missions = new ArrayList< Mission>();
+	private List<Mission> missions = new ArrayList<Mission>();
 
 	private static int missionId = 0;
 	

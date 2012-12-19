@@ -1,14 +1,13 @@
 package pl.piomin.kingsage.machine.main;
 
-import java.io.IOException;
+import org.apache.log4j.Logger;
 
-import pl.piomin.kingsage.machine.http.Sender;
 import pl.piomin.kingsage.machine.logic.Service;
-import pl.piomin.kingsage.machine.util.ResourceContainer;
 import pl.piomin.kingsage.machine.util.ResourceGenerator;
 
 public class KingsAgeMachine {
 
+	private static Logger logger = Logger.getLogger(KingsAgeMachine.class);
 	/**
 	 * @param args
 	 */
@@ -16,14 +15,13 @@ public class KingsAgeMachine {
 		ResourceGenerator generator = new ResourceGenerator();
 		generator.init();
 		
-//		Service service = new Service();
-//		service.process();
+		Service service = new Service();
+		service.process();
 		
-		Sender sender = new Sender();
 		try {
-			sender.send(ResourceContainer.getInstance().getMission(0));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Thread.sleep(60000);
+			logger.info("running...");
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
